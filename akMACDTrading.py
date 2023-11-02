@@ -109,7 +109,7 @@ def main(code="600570", start_cash=1000000, stake=100, commission_fee=0.001):
     cerebro = bt.Cerebro()  # 创建主控制器
     cerebro.optstrategy(MyStrategy, maperiod=range(3, 31))  # 导入策略参数寻优
     # 利用 AKShare 获取股票的后复权数据，这里只获取前 6 列
-    stock_hfq_df = ak.stock_zh_a_hist(symbol=code, adjust="hfq", start_date='20230103', end_date='20231025').iloc[:, :6]
+    stock_hfq_df = ak.stock_zh_a_hist(symbol=code, adjust="hfq", start_date='20230103', end_date='20231031').iloc[:, :6]
     # 处理字段命名，以符合 Backtrader 的要求
     stock_hfq_df.columns = [
         'date',
