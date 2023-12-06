@@ -1,5 +1,7 @@
 
 from futu import *
+import akshare as ak
+
 import datetime
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -26,8 +28,8 @@ code = 'HK.00700'  # 腾讯股票代码
 capital = initial_capital
 stock_quantity = 0
 
-start_date = datetime.datetime(2023, 8, 1)
-end_date = datetime.datetime(2023, 11, 1)
+start_date = datetime.datetime(2023, 10, 25)
+end_date = datetime.datetime(2023, 11, 3)
 delta = datetime.timedelta(days=1)
 
 print("指定日期:", delta)
@@ -37,7 +39,7 @@ print("指定日期:", delta)
 while start_date <= end_date:
     # 获取当日股票价格
     ret, data, page_req_key = quote_ctx.request_history_kline(code, start=start_date.strftime('%Y-%m-%d'),
-                                                              end = start_date.strftime('%Y-%m-%d'), ktype='K_DAY',
+                                                              end=start_date.strftime('%Y-%m-%d'), ktype='K_DAY',
                                                               max_count=1)
     if ret == RET_OK:
         if data.empty:
