@@ -3,6 +3,7 @@ import pandas as pd
 import csv
 from matplotlib import pyplot as plt
 import datetime
+import xlsxwriter
 
 
 file_path = 'selfQuote.csv'
@@ -31,6 +32,7 @@ else:
     print('error:', data)
     
 all_stock_data = pd.DataFrame()
+writer = pd.ExcelWriter('stock_data.xlsx', engine='xlsxwriter')
 
 for symbol in myBusket:
     ret, data, page_req_key = quote_ctx.request_history_kline(
@@ -42,16 +44,27 @@ for symbol in myBusket:
     )
     
     if ret == RET_OK:
+        
         # 将获取的历史K线数据添加到DataFrame中
         stock_data = pd.DataFrame(data)
         stock_data['symbol'] = symbol  # 添加股票代码列
-        all_stock_data = pd.concat([all_stock_data, stock_data], ignore_index=True)
+        all_stock_data = pd.concat([all_stock_data, stock_data], ignore_index = True)
+        
+        stock_data.to_excel(writer, sheet_name = symbol, index = False) 
+
+        
+        print('ooooooooop')
+
     else:
         print(f"请求历史K线数据失败 for {symbol}: {ret}, {data}")
         
 
 # 关闭连接
 quote_ctx.close()
+
+
+writer._save()
+writer.close()
 
 # 将数据输出到CSV文件
 output_csv_path = 'selected_stock_data.csv'
